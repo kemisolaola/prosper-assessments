@@ -81,15 +81,15 @@
         <div class="col-span-2 lg:col-span-1 flex justify-end mt-10 lg:mt-2">
 <div class=" w-full lg:w-11/12 ">
           <div class="w-full mb-4" v-for=" (videoList, i ) in playList" :key="videoList">
-            <div @click="openSelectedPanel(i)" :class="selectedPanel == i ? 'bg-secondary': 'bg-mediumgrey'" class=" w-full h-24  border px-3 flex justify-between items-center">
+            <div @click="openSelectedPanel(i)" :class="selectedPanel.includes( i) ? 'bg-secondary': 'bg-mediumgrey'" class=" w-full h-24  border px-3 flex justify-between items-center">
            <div class="flex font-bold items-center" style="font-size: 17px">
-            <p :class="selectedPanel == i ? 'text-white': 'text-dark'" >
-            Bölmə {{i + 1}}:&nbsp; </p> <p :class="selectedPanel == i ? 'text-white': 'text-secondary'">{{videoList.title}}</p>
+            <p :class="selectedPanel.includes( i) ? 'text-white': 'text-dark'" >
+            Bölmə {{i + 1}}:&nbsp; </p> <p :class="selectedPanel.includes( i) ? 'text-white': 'text-secondary'">{{videoList.title}}</p>
            </div>
              
-           <img :src="selectedPanel == i ? arrowUp : arrowDown" alt="">
+           <img :src="selectedPanel.includes( i) ? arrowUp : arrowDown" alt="">
           </div>
-          <div class="w-full px-8 py-4 border hover:bg-mediumgrey hover:cursor-pointer" :class="selectedPanel == i ? 'block' : 'hidden'"  v-for="video in videoList.videos" :key="video">
+          <div class="w-full px-8 py-4 border hover:bg-mediumgrey hover:cursor-pointer" :class="selectedPanel.includes( i)   ? 'block' : 'hidden'"  v-for="video in videoList.videos" :key="video">
             <p class="font-bold text-base">{{video.name}}</p>
             <div class="flex items-center text-dark">
               <div class="w-28">
@@ -133,7 +133,7 @@ export default defineComponent({
     ]);
     const hideOption = ref(false)
     const openPanel = ref(false)
-    const selectedPanel = ref(0)
+    const selectedPanel = ref([])
     const arrowDown = ref(require('@/assets/arrow-down.svg'))
     const arrowUp = ref(require('@/assets/arrow-up.svg'))
     const playList = ref([{
@@ -182,7 +182,8 @@ export default defineComponent({
       ]
     }])
     const openSelectedPanel =  (index) => {
-      selectedPanel.value = index
+      // selectedPanel.value = index
+      selectedPanel.value.push(index)
     }
     return {
       counter,
